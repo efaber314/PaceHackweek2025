@@ -1,3 +1,6 @@
+# %%
+
+
 from pathlib import Path
 
 import cartopy.crs as ccrs
@@ -20,33 +23,28 @@ clouds = (0, 100) #cloud cover 0-50%
 
 #2. make a for loop for all the timestamps and download oci aod (because oci aod is not offered in earthaccess, we cannot designate bbox)
 #===============================================
-
-#1.
-
 results = earthaccess.search_data(
     short_name="PACE_OCI_L2_BGC", #example var.
     temporal=tspan,
     bounding_box=bbox,
     cloud_cover=clouds,
 )
-# (9 24 25)
+
+# %%
 tstamps = [] #lists of timestamps
 for i in range(len(results)):
     fname = results[i]['meta']['native-id']
     rec = fname.strip().split('.')
     tstamps.append(rec[1])
     
-#2.
+# %%
 OB_DAAC_PROVISIONAL = "https://oceandata.sci.gsfc.nasa.gov/cgi/getfile/"
 for tstamp in tstamps:
     
     HARP2_L2_MAPOL_FILENAME = "PACE_OCI.{}.L2.AER_UAA.V3_0.NRT.nc".format(tstamp)
     try:
-        fs.get(f"{OB_DAAC_PROVISIONAL}/{HARP2_L2_MAPOL_FILENAME}", "/home/jovyan/shared-public/DustBlumes/PACE_OCI_AOD/")
+        fs.get(f"{OB_DAAC_PROVISIONAL}/{HARP2_L2_MAPOL_FILENAME}", "~/hackathon2025/oci_data/")
         print(tstamp)
     except:
         pass
-    # paths = list(Path("data").glob("*.nc"))
-    # for path in paths:
-    #     reader = [
-    # pdb.set_trace()
+# %%
